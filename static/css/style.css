@@ -1,0 +1,111 @@
+/* Asosiy stil */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px;
+}
+
+.category-item {
+    margin-bottom: 10px;
+}
+
+.category-link {
+    text-decoration: none;
+    color: #3498db;
+    font-size: 18px;
+}
+
+.category-link:hover {
+    text-decoration: underline;
+}
+
+.questions-container {
+    margin-top: 20px;
+}
+
+.question-item {
+    margin-bottom: 20px;
+}
+
+.submit-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+}
+/* Hover animatsiyasi */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar styling */
+.navbar {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Card body styling */
+.card-body {
+    text-align: center;
+}
+
+/* Animatsiya uchun matn */
+.animate-text {
+    animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Custom button style */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+/* Footer styling */
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+}
