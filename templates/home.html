@@ -1,38 +1,134 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kategoriyalar</title>
-    <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <style>
+        main {
+            flex: 1;
+        }
+        .navbar-nav .nav-link {
+            font-weight: 500;
+        }
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+    </style>
 </head>
 <body>
-    <header class="bg-primary text-white text-center py-4">
-        <h1>Kategoriyalar</h1>
-    </header>
-    <main class="container my-5">
-        <div class="row">
-            {% for category in categories %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Sayt Nomi</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#home">Bosh sahifa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories">Kategoriyalar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news">Yangiliklar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Aloqa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">Biz haqimizda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Servislar</a></li>
+                </ul>
+                <div class="ms-auto">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}" class="btn btn-danger">Chiqish</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">Kirish</a>
+                        <a href="{% url 'register' %}" class="btn btn-success">Ro'yxatdan o'tish</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-5 pt-5">
+        <!-- Bosh sahifa -->
+        <section id="home" class="text-center bg-light p-4 rounded">
+            <h1>Bosh sahifa</h1>
+            <p>Bu yerda saytning umumiy tavsifi bo‘ladi.</p>
+        </section>
+
+        <!-- Kategoriyalar -->
+        <section id="categories" class="mt-5">
+            <h2 class="text-center mb-4">Kategoriyalar</h2>
+            <div class="row">
+                {% for category in categories %}
+                <div class="col-md-4 col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="{{ category.image.url|default:'/static/images/default.png' }}" class="card-img-top" alt="{{ category.name }}">
+                        <div class="card-body text-center">
                             <h5 class="card-title">{{ category.name }}</h5>
-                            <a href="{% url 'category_detail' category.id %}" class="btn btn-primary">Ko'rish</a>
+                            <a href="{% url 'category_detail' category.id %}" class="btn btn-primary">Batafsil</a>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Yangiliklar -->
+        <section id="news" class="mt-5">
+            <h2 class="text-center mb-4">Yangiliklar</h2>
+            <div class="row">
+                {% for item in news %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text">{{ item.content|truncatewords:10 }}</p>
+                            <a href="{% url 'news_detail' item.id %}" class="btn btn-primary">Ko'rish</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center">Hozircha yangiliklar mavjud emas.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Aloqa -->
+        <section id="contact" class="text-center bg-light p-4 rounded mt-5">
+            <h2>Aloqa</h2>
+            <p>Biz bilan bog‘lanish uchun quyidagi ma’lumotlardan foydalaning.</p>
+        </section>
+
+        <!-- Biz haqimizda -->
+        <section id="about" class="text-center p-4 rounded mt-5">
+            <h2>Biz haqimizda</h2>
+            <p>Bizning kompaniya haqida qisqacha ma’lumot.</p>
+        </section>
+
+        <!-- Servislar -->
+        <section id="services" class="text-center bg-light p-4 rounded mt-5">
+            <h2>Servislar</h2>
+            <p>Bizning xizmatlar ro‘yxati va ulardan foydalanish imkoniyatlari.</p>
+        </section>
     </main>
-    <footer class="bg-light text-center py-4">
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
         <p>&copy; 2025. Barcha huquqlar himoyalangan.</p>
     </footer>
 
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <!-- JS FAYLLAR -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

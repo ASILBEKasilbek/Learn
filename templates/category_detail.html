@@ -5,147 +5,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ category.name }}</title>
-    <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f7f9fc;
-            line-height: 1.6;
         }
         header {
             background: linear-gradient(to right, #007bff, #6610f2);
             color: white;
             padding: 50px 0;
+            text-align: center;
         }
-        header h1 {
-            font-size: 3rem;
+        .category-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 20px auto;
+            border-radius: 10px;
         }
-        .container {
+        .admin-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .admin-info img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 3px solid #007bff;
+        }
+        .topic-list {
+            margin-top: 30px;
+        }
+        .topic-item {
             background-color: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        .lead {
-            font-size: 1.2rem;
-            color: #555;
-        }
-        .form-label {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #333;
-        }
-        .form-control {
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            padding: 12px;
-        }
-        .question-container {
-            background-color: #f0f8ff;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 15px;
-            border-left: 5px solid #007bff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .question-container h5 {
-            font-size: 1.25rem;
+        .topic-item a {
+            text-decoration: none;
             color: #007bff;
-            font-weight: 600;
-        }
-        .question-container p {
-            font-size: 1rem;
-            color: #555;
-        }
-        .question-number {
-            font-weight: 600;
             font-size: 1.2rem;
-            color: #28a745;
+            font-weight: 600;
         }
-        .answer-field {
-            display: none;
-            margin-top: 15px;
-        }
-        .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
-            transition: background-color 0.3s;
-            font-size: 1.1rem;
-            padding: 12px 25px;
-            border-radius: 8px;
-        }
-        .btn-success:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
-        }
-        .submit-button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        footer {
-            background-color: #f1f1f1;
-            padding: 20px 0;
-            font-size: 0.9rem;
-            color: #555;
-        }
-        footer p {
-            margin: 0;
-        }
-        .mb-4 {
-            margin-bottom: 2rem;
-        }
-        .mb-3 {
-            margin-bottom: 1.5rem;
+        .topic-item a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <header class="text-center">
+    <header>
         <h1>{{ category.name }}</h1>
     </header>
+    
     <main class="container my-5">
-        <p class="lead">{{ category.description }}</p>
-        
-        <h2 class="mb-4">Savollar va Javoblar</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-4">
-                {% for question in questions %}
-                    <div class="question-container">
-                        <h5 class="question-number">Savol {{ forloop.counter }}:</h5>
-                        <p>{{ question.text }}</p>
-                        <button type="button" class="btn btn-primary" onclick="toggleAnswerField({{ forloop.counter }})">Javob yozishni boshlash</button>
-                        <div id="answer_field_{{ forloop.counter }}" class="answer-field">
-                            <label for="answer_{{ forloop.counter }}" class="form-label">Javobni kiriting:</label>
-                            <textarea id="answer_{{ forloop.counter }}" name="answer_{{ forloop.counter }}" class="form-control" rows="4" placeholder="Javobni shu yerga yozing..."></textarea>
-                            <div class="submit-button-container">
-                                <button type="submit" class="btn btn-success" name="submit_{{ forloop.counter }}">Javob yuborish</button>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </form>
+        <!-- Kategoriya rasmi -->
+        {% if category.image %}
+            <img src="{{ category.image.url }}" alt="Kategoriya rasmi" class="category-image">
+        {% endif %}
+
+        <!-- Admin ma'lumotlari -->
+        <div class="admin-info">
+            {% if category.admin_image %}
+                <img src="{{ category.admin_image.url }}" alt="Admin rasmi">
+            {% else %}
+                <img src="{% static 'default-profile.png' %}" alt="Default rasm">
+            {% endif %}
+            <h4>{{ category.admin_name }} {{ category.admin_surname }}</h4>
+            {% if category.admin_description %}
+                <p>{{ category.admin_description }}</p>
+            {% else %}
+                <p>Admin haqida ma'lumot yo'q.</p>
+            {% endif %}
+        </div>
+
+        <!-- Mavzular ro'yxati -->
+        <div class="topic-list">
+            <h2>Mavzular</h2>
+            {% for topic in topics %}
+                <div class="topic-item">
+                    <a href="{% url 'question_detail' topic.id %}">{{ topic.title }}</a>
+                </div>
+            {% empty %}
+                <p>Bu kategoriyada hali mavzular yo'q.</p>
+            {% endfor %}
+        </div>
     </main>
-    <footer class="text-center">
-        <p>&copy; 2025. Barcha huquqlar himoyalangan.</p>
-    </footer>
-
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-
-    <script>
-        function toggleAnswerField(questionNumber) {
-            var answerField = document.getElementById('answer_field_' + questionNumber);
-            if (answerField.style.display === 'none' || answerField.style.display === '') {
-                answerField.style.display = 'block';
-            } else {
-                answerField.style.display = 'none';
-            }
-        }
-    </script>
 </body>
 </html>
