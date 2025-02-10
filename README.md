@@ -39,17 +39,9 @@ Learn is an interactive learning platform where users can explore various catego
    python manage.py runserver
    ```
 
-## 📸 Screenshots (Optional)
-_Add screenshots of your project here_
-
-## 🔗 Demo (If Available)
-[Live Demo](#) (Add your hosted link if applicable)
-
 ## 🤝 Contribution
 Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request.
 
-## 📜 License
-This project is licensed under the MIT License.
 
 ## 📩 Contact
-For any inquiries, reach out via GitHub or email at [your-email@example.com]
+For any inquiries, reach out via GitHub or email at [asilbek.sadullayev000@gmail.com]
